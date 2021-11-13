@@ -15,6 +15,7 @@ import 'package:myanime/cubits/review.dart';
 import 'package:myanime/models/characters.dart';
 import 'package:myanime/models/details.dart';
 import 'package:myanime/models/episode.dart';
+import 'package:myanime/models/favorite.dart';
 import 'package:myanime/models/news.dart';
 import 'package:myanime/models/pictures.dart';
 import 'package:myanime/models/recommendation.dart';
@@ -25,6 +26,7 @@ import 'package:myanime/ui/widgets/header_swiper.dart';
 import 'package:myanime/ui/widgets/loading_view.dart';
 import 'package:myanime/ui/widgets/profile_image.dart';
 import 'package:myanime/utils/browser.dart';
+import 'package:myanime/utils/dataBase/database.dart';
 import 'package:myanime/utils/menu.dart';
 import 'package:row_collection/row_collection.dart';
 import 'package:row_item/row_item.dart';
@@ -35,7 +37,12 @@ import '../../utils/translate.dart';
 class DetailsPage extends StatefulWidget {
   final int id;
   final String title;
-  DetailsPage({@required this.id, @required this.title});
+  final String imageUrl;
+  DetailsPage({
+    @required this.id,
+    @required this.title,
+    @required this.imageUrl,
+  });
 
   static const route = 'detailsPage';
 
@@ -46,12 +53,42 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage>
     with TickerProviderStateMixin {
   TabController _controller;
+  DataBasefavorite databaseHelper = DataBasefavorite();
+  bool add = false;
+  FavoriteModel favoriteModel;
+
+  void insss() async {
+    Map<String, dynamic> map = {
+      "id": widget.id,
+      "name": widget.title.toString(),
+      "imageUrl": widget.imageUrl.toString(),
+    };
+
+    FavoriteModel nddd = FavoriteModel.fromJson(map);
+    favoriteModel = nddd;
+    await databaseHelper.savefavorite(nddd);
+  }
+
+  List<FavoriteModel> item = [];
+  void updateListView() async {
+    var database = await databaseHelper.getAllUsers();
+
+    item = database;
+    if (item.isNotEmpty) {
+      for (int i = 0; i < item.length; i++) {
+        if (item[i].id == widget.id) {
+          setState(() {
+            add = true;
+          });
+        }
+      }
+    }
+  }
 
   @override
   void initState() {
     _controller = new TabController(length: 5, vsync: this);
 
-    //BlocProvider.of<DetailsCubit>(context).loadData(id: widget.id);
     BlocProvider.of<PicturesCubit>(context).loadData(id: widget.id);
 
     BlocProvider.of<OverViewCubit>(context).loadData(id: widget.id);
@@ -60,14 +97,37 @@ class _DetailsPageState extends State<DetailsPage>
     BlocProvider.of<RecommendationCubit>(context).loadData(id: widget.id);
     BlocProvider.of<CharacterCubit>(context).loadData(id: widget.id);
     BlocProvider.of<NewsCubit>(context).loadData(id: widget.id);
-
-    // BlocProvider.of<OverViewCubit>(context).loadData(id: widget.id);
+    updateListView();
 
     super.initState();
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Add to favourites",
+        backgroundColor: add ? Colors.red : Colors.white,
+        focusColor: Colors.black,
+        mouseCursor: MouseCursor.defer,
+        autofocus: true,
+        isExtended: true,
+        child: Icon(
+          Icons.add,
+          size: 40,
+        ),
+        onPressed: () {
+          setState(() {
+            insss();
+            if (add == true) {
+              add = false;
+              databaseHelper.deletfavorite(favoriteModel);
+            } else {
+              add = true;
+            }
+          });
+        },
+      ),
       body: DefaultTabController(
         length: 6,
         child: RequestSliverPage<PicturesCubit, AnimePictures>(

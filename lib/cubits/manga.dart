@@ -10,15 +10,20 @@ class Mangacubit extends RequestCubit<MangaRepository, Manga> {
   Mangacubit(MangaRepository repository) : super(repository);
 
   @override
-  Future<void> loadData() async {
-    emit(RequestState.loading(state.value));
+  Future<List> loadData({int page = 1}) async {
+    if (page == 1) {
+      emit(RequestState.loading(state.value));
+    }
 
     try {
-      final data = await repository.fetchData();
+      final data = await repository.fetchData(page: page);
+      emit(RequestState.loading(state.value));
 
       emit(RequestState.loaded(data));
+      return data.top;
     } catch (e) {
       emit(RequestState.error(e.toString()));
+      return null;
     }
   }
 }

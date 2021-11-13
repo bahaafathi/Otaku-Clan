@@ -12,11 +12,12 @@ class AnimeCard extends StatelessWidget {
   final int id;
   final String title;
   final bool cliced;
-  const AnimeCard(
-      {@required this.imageUrl,
-      @required this.id,
-      @required this.title,
-      @required this.cliced});
+  const AnimeCard({
+    @required this.imageUrl,
+    @required this.id,
+    @required this.title,
+    @required this.cliced,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class AnimeCard extends StatelessWidget {
                 context,
                 DetailsPage.route,
                 arguments: {
+                  'imageUrl': imageUrl,
                   'id': id,
                   'title': title,
                 },

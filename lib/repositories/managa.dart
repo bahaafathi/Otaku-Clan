@@ -8,8 +8,8 @@ class MangaRepository extends BaseRepository<MangaService, Manga> {
   const MangaRepository(MangaService service) : super(service);
 
   @override
-  Future<Manga> fetchData() async {
-    final response = await service.getManga();
+  Future<Manga> fetchData({int page = 1}) async {
+    final response = await service.getManga(page);
 
     return Manga.fromJson(response.data);
   }

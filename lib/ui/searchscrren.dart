@@ -12,8 +12,10 @@ import '../utils/translate.dart';
 class SearchScreen extends StatefulWidget {
   static const route = 'search';
   bool auto;
-  SearchScreen(aa) {
-    auto = aa;
+  bool navigator;
+  SearchScreen({autofocus, Navigator}) {
+    navigator = Navigator;
+    auto = autofocus;
   }
 
   @override
@@ -40,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
         leading: IconButton(
           onPressed: () {
             _clearSearch();
-            if (widget.auto == true) {
+            if (widget.navigator == true) {
               Navigator.pop(context);
             }
             widget.auto = false;

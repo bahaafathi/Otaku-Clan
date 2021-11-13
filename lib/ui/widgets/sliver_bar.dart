@@ -39,7 +39,7 @@ class SliverBar extends StatelessWidget {
         textAlign: TextAlign.center,
         maxLines: 1,
         style: GoogleFonts.rubik(
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w600, 
           shadows: [
             Shadow(
               blurRadius: 4,

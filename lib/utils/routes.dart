@@ -26,7 +26,7 @@ class Routes {
         case SearchScreen.route:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => SearchScreen(true),
+            builder: (_) => SearchScreen(Navigator: true, autofocus: true),
           );
 
         case AboutScreen.route:
@@ -49,12 +49,14 @@ class Routes {
         case DetailsPage.route:
           final id = args['id'] as int;
           final title = args['title'] as String;
+          final imageUrl = args['imageUrl'] as String;
 
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => DetailsPage(
               title: title,
               id: id,
+              imageUrl: imageUrl,
             ),
           );
 

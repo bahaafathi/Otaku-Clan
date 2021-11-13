@@ -5,9 +5,9 @@ import 'package:myanime/utils/url.dart';
 class UpcomingService extends BaseService<Dio> {
   const UpcomingService(Dio client) : super(client);
 
-  Future<Response> getUpcoming() async {
+  Future<Response> getUpcoming(int page) async {
     await Future.delayed(const Duration(seconds: 1));
     print('Upcoming');
-    return client.get(Url.animeCategoryUrl(category: Category.upcoming));
+    return client.get(Url.animeCategoryUrl(category: Category.upcoming,page:page ));
   }
 }

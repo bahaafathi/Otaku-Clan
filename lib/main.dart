@@ -11,6 +11,7 @@ import 'package:myanime/cubits/ova.dart';
 import 'package:myanime/cubits/special.dart';
 import 'package:myanime/cubits/top.dart';
 import 'package:myanime/cubits/upcoming.dart';
+import 'package:myanime/models/favorite.dart';
 import 'package:myanime/repositories/changelog.dart';
 import 'package:myanime/repositories/details.dart';
 import 'package:myanime/repositories/details/characterstuff.dart';
@@ -38,6 +39,7 @@ import 'package:myanime/services/top.dart';
 import 'package:myanime/services/upcoming.dart';
 import 'package:myanime/ui/start.dart';
 import 'package:myanime/utils/bloc_observer.dart';
+import 'package:myanime/utils/dataBase/database.dart';
 import 'package:myanime/utils/routes.dart';
 import 'package:myanime/utils/url.dart';
 import 'package:path_provider/path_provider.dart';
@@ -92,17 +94,6 @@ void main() async {
   );
 
   Bloc.observer = MyBlocObserver();
-
-  // print('_________________________________________');
-  // final data =
-  //     await DetailsRepository(DetailsService(httpClient)).fetchData(id: 1);
-  // print(data[1].characters[0].name);
-  // print('_________________________________________');
-  // var data = await SearchRepository(SearchService(httpClient)).fetchData();
-  // print(data.results[0].title);
-  // var data =
-  //     await PicturesRepository(DetailsService(httpClient)).fetchData(id: 1);
-  // print(data.pictures[0].large);
 }
 
 class MyApp extends StatelessWidget {

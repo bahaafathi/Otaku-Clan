@@ -7,8 +7,8 @@ class TopRepository extends BaseRepository<TopService, CategoryModel> {
   const TopRepository(TopService service) : super(service);
 
   @override
-  Future<CategoryModel> fetchData() async {
-    final response = await service.getTop();
+  Future<CategoryModel> fetchData({int page}) async {
+    final response = await service.getTop(page);
 
     return CategoryModel.fromJson(response.data);
   }

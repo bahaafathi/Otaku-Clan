@@ -5,8 +5,8 @@ import 'package:myanime/utils/url.dart';
 class MangaService extends BaseService<Dio> {
   const MangaService(Dio client) : super(client);
 
-  Future<Response> getManga() async {
+  Future<Response> getManga(int page) async {
     print('Mnaga');
-    return client.get(Url.mangaCategoryUrl());
+    return client.get(Url.mangaCategoryUrl(page: page));
   }
 }
